@@ -1,3 +1,9 @@
+build/
+opencv-master/
+CMakeFiles/
+opencv.zip
+
+
 # Prerequisites
 *.d
 
