@@ -2,6 +2,7 @@
 #include <string>
 #include "opencv2/imgproc.hpp"
 #include "opencv2/imgcodecs.hpp"
+#include "opencv2/highgui.hpp"
 
 using namespace std;
 using namespace cv;
@@ -12,12 +13,16 @@ int MAX_KERNEL_LENGTH = 31;
 
 Mat src;
 Mat dst;
+char window_name[] = "smoothing demo";
 
 int display_dst(const char *caption);
 
 int main(int argc, char **argv)
 {
+    namedWindow(window_name, WINDOW_AUTOSIZE);
+
     const char *filename = argc >= 2 ? argv[1] : "lena.jpg";
+    
     src = imread(samples::findFile(filename), IMREAD_COLOR);
     if (src.empty())
     {
@@ -74,5 +79,11 @@ int display_dst(const char *caption)
     string filename = caption;
     filename = filename + ".jpg";
     imwrite(filename, dst);
+    imshow(window_name, dst);
+    int c = waitKey(1000);
+    if (c >= 0)
+    {
+        return -1;
+    }
     return 0;
 }
