@@ -15,7 +15,7 @@ int MAX_VALUE = 100;
 int THRESHOLD_VALUE = 0;
 int THRESHOLD_TYPE = 0;
 int const MAX_THR_VALUE = 255;
-int const MAX_THR_TYPE = 4;
+int const MAX_THR_TYPE = 6;
 int const MAX_BINARY_VALUE = 255;
 
 Mat src;
@@ -27,7 +27,7 @@ const char *trackbar_type = "Type: \n 0: Homogeneous \n 1: Gaussian \n 2: median
 const char *trackbar_value = "Value";
 
 const char *window2_name = "Threshold Demo";
-const char *trackbar2_type = "Type: \n 0: Binary \n 1: Binary Inverted \n 2: Truncate \n 3: To Zero \n 4: To Zero Inverted";
+const char *trackbar2_type = "Type: \n 0: Binary \n 1: Binary Inverted \n 2: Truncate \n 3: To Zero \n 4: To Zero Inverted \n 5: adaptive mean \n 6: adaptive gaussian";
 const char *trackbar2_value = "Value";
 
 //int display_dst(const char *caption);
@@ -71,13 +71,31 @@ static void Blur_Demo(int, void *)
 static void Threshold_Demo(int, void *)
 {
     dst = src_bw.clone();
-    /* 0: Binary
+
+    if (THRESHOLD_TYPE <= 4)
+    {
+        /* 0: Binary
      1: Binary Inverted
      2: Threshold Truncated
      3: Threshold to Zero
      4: Threshold to Zero Inverted
     */
-    threshold(src_bw, dst, THRESHOLD_VALUE, MAX_BINARY_VALUE, THRESHOLD_TYPE);
+        threshold(src_bw, dst, THRESHOLD_VALUE, MAX_BINARY_VALUE, THRESHOLD_TYPE);
+    }
+    else if (THRESHOLD_TYPE == 5)
+    {
+        for (int i = 1; i < THRESHOLD_VALUE; i = i + 2)
+        {
+            adaptiveThreshold(src_bw, dst, MAX_THR_VALUE, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, i, 0);
+        }
+    }
+    else if (THRESHOLD_TYPE == 6)
+    {
+        for (int i = 1; i < THRESHOLD_VALUE; i = i + 2)
+        {
+            adaptiveThreshold(src_bw, dst, MAX_THR_VALUE, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY, i, 0);
+        }
+    }
     imshow(window2_name, dst);
 }
 
