@@ -84,16 +84,16 @@ static void Threshold_Demo(int, void *)
     }
     else if (THRESHOLD_TYPE == 5)
     {
-        for (int i = 1; i < THRESHOLD_VALUE; i = i + 2)
+        for (int i = 3; i < THRESHOLD_VALUE; i = i + 2)
         {
-            adaptiveThreshold(src_bw, dst, MAX_THR_VALUE, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, i, 0);
+            adaptiveThreshold(src_bw, dst, MAX_THR_VALUE, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, i, 2);
         }
     }
     else if (THRESHOLD_TYPE == 6)
     {
-        for (int i = 1; i < THRESHOLD_VALUE; i = i + 2)
+        for (int i = 3; i < THRESHOLD_VALUE; i = i + 2)
         {
-            adaptiveThreshold(src_bw, dst, MAX_THR_VALUE, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY, i, 0);
+            adaptiveThreshold(src_bw, dst, MAX_THR_VALUE, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY, i, 2);
         }
     }
     imshow(window2_name, dst);
