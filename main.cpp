@@ -121,9 +121,11 @@ int main(int argc, char **argv)
     namedWindow(window2_name, WINDOW_AUTOSIZE);
     createTrackbar(trackbar2_type, window2_name, &THRESHOLD_TYPE, MAX_THR_TYPE, Threshold_Demo);    // Create a Trackbar to choose type of Threshold
     createTrackbar(trackbar2_value, window2_name, &THRESHOLD_VALUE, MAX_THR_VALUE, Threshold_Demo); // Create a Trackbar to choose Threshold value
+
     Threshold_Demo(0, 0);
 
     Blur_Demo(0, 0);
+
     waitKey();
 
     return 0;
