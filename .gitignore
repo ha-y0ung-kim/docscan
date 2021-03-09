@@ -4,6 +4,7 @@ opencv.zip
 main
 f
 f.cpp
+examplepic/
 
 # Created by https://www.toptal.com/developers/gitignore/api/cmake
 # Edit at https://www.toptal.com/developers/gitignore?templates=cmake
