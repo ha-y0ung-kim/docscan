@@ -44,6 +44,12 @@ static void Magic_Filter(int, void *)
 
     Canny(dst, dst_canny, lowThreshold, lowThreshold * rat, kernel_size);
 
+    vector<vector<Point>> contours;
+    vector<Vec4i> hierarchy;
+    findContours(dst_canny, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE);
+
+    vector<Point> approx;
+
     imshow(window_name, dst_canny);
 }
 
@@ -53,7 +59,7 @@ int main(int argc, char **argv)
     namedWindow(window_name, WINDOW_AUTOSIZE);
     createTrackbar("Min Threshold:", window_name, &lowThreshold, max_lowThreshold, Magic_Filter);
 
-    const char *filename = argc >= 2 ? argv[1] : "examplepic/test1.jpg";
+    const char *filename = argc >= 2 ? argv[1] : "examplepic/test4.jpg";
 
     src = imread(samples::findFile(filename), IMREAD_COLOR); //Load Image
     if (src.empty())
