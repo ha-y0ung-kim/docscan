@@ -20,17 +20,15 @@ cmake  ../opencv-master
 cmake --build . && cd ..
 ~~~
 
-Add the environment variable for OpenCV binaries
-~~~bash
-export OpenCV_DIR=ocv-build
-~~~
-
 ## Building with g++ and cmake
 
 Start with a simple CMakeLists.txt such as
 ~~~cmake
 cmake_minimum_required(VERSION 2.8)
 project( main )
+
+set("OpenCV_DIR" "ocv-build")
+
 find_package( OpenCV REQUIRED )
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 add_executable( main main.cpp )
@@ -44,6 +42,13 @@ cmake .
 make
 ~~~
 
+## Using VSCode extensions for cmake and c++
+
+One can use extensions to make it easier to build and debug c++ sources, and place the compiled programs in the desired directory.
+
+1. Install the two extensions from the documentation [page](https://code.visualstudio.com/docs/cpp/CMake-linux#_prerequisites).
+2. Select a build kit (to choose the debugger and compiler) by opening the command palette (`ctrl+shift+p`) and type `cmake select kit`. Then, select the kit with g++-9 (GCC 9.3.x).
+3. Now, you can build and launch the executable from the VSCode with the buttons in the bottom Status bar.
 
 
 To help others, I found that my .bashrc needed to contain the following:
