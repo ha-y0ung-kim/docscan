@@ -21,10 +21,10 @@ Mat src;
 Mat dst;
 Mat src_bw;
 
-const char *window_name = "Magic Filter Demo";
-const char *trackbar_value = "Blur";
-const char *trackbar2_value = "Threshold";
-const char *trackbar3_value = "Denoising";
+string window_name = "Magic Filter Demo";
+string trackbar_value = "Blur";
+string trackbar2_value = "Threshold";
+string trackbar3_value = "Denoising";
 
 //int display_dst(const char *caption);
 
@@ -59,13 +59,13 @@ int main(int argc, char **argv)
     createTrackbar(trackbar2_value, window_name, &THRESHOLD_VALUE, MAX_THR_VALUE, Magic_Filter); // Create a Trackbar to choose Threshold value
     createTrackbar(trackbar3_value, window_name, &DENOISE_VALUE, MAX_DN_VALUE, Magic_Filter);    // Create a Trackbar to choose Threshold value
 
-    const char *filename = argc >= 2 ? argv[1] : "examplepic/test1.jpg";
+    string filename = argc >= 2 ? argv[1] : "lena.jpg";
 
     src = imread(samples::findFile(filename), IMREAD_COLOR); //Load Image
     if (src.empty())
     {
-        printf(" Error opening image\n");
-        printf(" Usage:\n %s [image_name-- default lena.jpg] \n", argv[0]);
+        cout << " Error opening image" << endl;
+        cout << " Usage:" << endl << argv[0] << " [image_name-- default lena.jpg]" << endl;
         return EXIT_FAILURE;
     }
 
