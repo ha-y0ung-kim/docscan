@@ -52,5 +52,12 @@ int main(int argc, char **argv)
 
     cout << pointarray << endl;
 
-    cout << a;
+    //     int arx[4] = {pointarray.at(0).x, pointarray.at(1).x, pointarray.at(2).x, pointarray.at(3).x};
+
+    //     int ary[4] = {pointarray.at(0).y, pointarray.at(1).y, pointarray.at(2).y, pointarray.at(3).y};
+
+    //     int a = max_element(arx[0], arx+4);
+
+    // //    int b = max_element(ary[0], ary[3]);
+    //     cout << a;
 }
