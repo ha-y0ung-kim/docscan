@@ -1,4 +1,5 @@
 build/
+ocv-build/
 opencv-master/
 opencv.zip
 main
