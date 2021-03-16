@@ -24,23 +24,33 @@ const char *trackbar_value = "Blur";
 const char *trackbar2_value = "Threshold";
 const char *trackbar3_value = "Denoising";
 
+RNG rng(12345);
+
 //int display_dst(const char *caption);
 
 static void Magic_Filter(int, void *)
 {
+    //blur(src_bw, dst_canny, Size(3, 3));
 
-    Canny(dst, dst_canny, lowThreshold, lowThreshold * rat, kernel_size);
+    Canny(src_bw, dst_canny, lowThreshold, lowThreshold * rat, kernel_size);
 
-    dst_f = Scalar::all(0);
-    src.copyTo(dst_f, dst_canny);
+    //dst = Scalar::all(0);
+    //src.copyTo(dst, dst_canny);
 
-    /* vector<vector<Point>> contours;
+    vector<vector<Point>> contours;
     vector<Vec4i> hierarchy;
     findContours(dst_canny, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE);
 
-    vector<Point> approx;
- */
-    imshow(window_name, dst_f);
+    Mat drawing = Mat::zeros(dst_canny.size(), CV_8UC3);
+    for (size_t i = 0; i < contours.size(); i++)
+    {
+        Scalar color = Scalar(rng.uniform(0, 256), rng.uniform(0, 256), rng.uniform(0, 256));
+        drawContours(drawing, contours, (int)i, color, 2, LINE_8, hierarchy, 0);
+    }
+    imshow(window_name, drawing);
+    //vector<Point> approx;
+
+    // imshow(window_name, dst);
 }
 
 int main(int argc, char **argv)
@@ -48,7 +58,7 @@ int main(int argc, char **argv)
 
     namedWindow(window_name, WINDOW_AUTOSIZE);
 
-    const char *filename = argc >= 2 ? argv[1] : "examplepic/test1.jpg";
+    const char *filename = argc >= 2 ? argv[1] : "examplepic/test4.jpg";
 
     src = imread(samples::findFile(filename), IMREAD_COLOR); //Load Image
     if (src.empty())
@@ -59,17 +69,8 @@ int main(int argc, char **argv)
     }
     dst = src.clone();
 
-    for (int i = 1; i < 14; i = i + 2)
-    {
-        GaussianBlur(src, dst, Size(i, i), 0, 0);
-    }
-
-    cvtColor(dst, src_bw, COLOR_BGR2GRAY); //Convert image to gray
-
-    for (int i = 3; i < 7; i = i + 2)
-    {
-        adaptiveThreshold(src_bw, dst, 255, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY, i, 2);
-    }
+    dst.create(src.size(), src.type());
+    cvtColor(src, src_bw, COLOR_BGR2GRAY); //Convert image to gray
 
     createTrackbar("Min Threshold:", window_name, &lowThreshold, max_lowThreshold, Magic_Filter);
 
