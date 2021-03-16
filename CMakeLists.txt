@@ -1,15 +1,19 @@
 cmake_minimum_required(VERSION 2.8)
 project( main )
 
-set("OpenCV_DIR" "ocv-build")
+set("OpenCV_DIR" "build")
 
 find_package( OpenCV REQUIRED )
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 # add_executable( main main.cpp )
 # target_link_libraries( main ${OpenCV_LIBS} )
-add_executable( docscan docscan.cpp )
-target_link_libraries( docscan ${OpenCV_LIBS} )
+# add_executable( docscan docscan.cpp )
+# target_link_libraries( docscan ${OpenCV_LIBS} )
 # add_executable( f f.cpp )
 # target_link_libraries( f ${OpenCV_LIBS} )
-add_executable( findedge findedge.cpp )
-target_link_libraries( findedge ${OpenCV_LIBS} )
+# add_executable( findedge findedge.cpp )
+# target_link_libraries( findedge ${OpenCV_LIBS} )
+
+
+add_executable( imagesizetranform imagesizetranform.cpp )
+target_link_libraries( imagesizetranform ${OpenCV_LIBS} )
