@@ -31,6 +31,20 @@ void mouse_callback(int event, int x, int y, int, void *param)
     }
 }
 
+// void draw_square(int, void *){
+
+// }
+
+double get_angle(Point pt0, Point pt1, Point pt2)
+{
+    // calculate angle between three points
+    // gives angle at pt0
+    double dt0 = pow((pt1.x - pt2.x), 2) + pow((pt1.y - pt2.y), 2);
+    double dt1 = pow((pt2.x - pt0.x), 2) + pow((pt2.y - pt0.y), 2);
+    double dt2 = pow((pt1.x - pt0.x), 2) + pow((pt1.y - pt0.y), 2);
+    return acos((dt1 + dt2 - dt0) / (2 * sqrt(dt1) * sqrt(dt2)));
+}
+
 int main(int argc, char **argv)
 {
 
@@ -50,14 +64,41 @@ int main(int argc, char **argv)
     imshow(window_name, src);
     waitKey();
 
-    cout << pointarray << endl;
+    double ang012 = get_angle(pointarray[0], pointarray[1], pointarray[2]);
+    double ang013 = get_angle(pointarray[0], pointarray[1], pointarray[3]);
+    double ang023 = get_angle(pointarray[0], pointarray[2], pointarray[3]);
+    cout << ang012 << " " << ang013 << " " << ang023 << "\n ";
+    array<double, 3> foo = {ang012, ang013, ang023};
 
-    //     int arx[4] = {pointarray.at(0).x, pointarray.at(1).x, pointarray.at(2).x, pointarray.at(3).x};
+    cout << foo[0] << " " << foo[1] << " " << foo[2] << "\n ";
 
-    //     int ary[4] = {pointarray.at(0).y, pointarray.at(1).y, pointarray.at(2).y, pointarray.at(3).y};
+    array<int, 3> ind = {3, 4, 5};
 
-    //     int a = max_element(arx[0], arx+4);
+    int inx = 0;
 
-    // //    int b = max_element(ary[0], ary[3]);
-    //     cout << a;
+    if (foo[0] < foo[1])
+    {
+
+        if (foo[1] < foo[2])
+        {
+            ind = {5, 4, 3};
+        }
+        ind = {4, 3, 5};
+    }
+
+    else if (foo[0] < foo[2])
+    {
+        ind = {5, 3, 4};
+    }
+
+    cout << ind[0] << " " << ind[1] << " " << ind[2] << "\n ";
+
+    cout << foo[ind[0] - 3] << " " << foo[ind[1] - 3] << " " << foo[ind[2] - 3];
+
+    line(src, pointarray[0], pointarray[6 - ind[1]], Scalar(0, 0, 25), 1, 8, 0);
+    line(src, pointarray[0], pointarray[6 - ind[2]], Scalar(0, 0, 25), 1, 8, 0);
+    line(src, pointarray[6 - ind[0]], pointarray[6 - ind[1]], Scalar(0, 0, 25), 1, 8, 0);
+    line(src, pointarray[6 - ind[0]], pointarray[6 - ind[2]], Scalar(0, 0, 25), 1, 8, 0);
+    imshow(window_name, src);
+    waitKey();
 }
