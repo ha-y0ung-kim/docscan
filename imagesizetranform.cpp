@@ -58,6 +58,46 @@ void fourpointsquare(int event, int x, int y, int, void *param)
     }
 }
 
+array<Point, 4> odersquarepoints(vector<Point> ptarray)
+{
+    // put the Four edge point in oder
+    //  1 ┏━━━┓ 2
+    //    ┃   ┃
+    //  4 ┗━━━┛ 3
+    array<Point, 4> oderedpoint;
+
+    array<int, 4> xpoints = {ptarray[0].x, ptarray[1].x, ptarray[2].x, ptarray[3].x};
+    auto a = distance(xpoints.begin(), min_element(xpoints.begin(), xpoints.end()));
+    oderedpoint[0] = ptarray[a];
+    xpoints[a] = src.cols;
+    a = distance(xpoints.begin(), min_element(xpoints.begin(), xpoints.end()));
+    if (oderedpoint[0].y > ptarray[a].y)
+    {
+        oderedpoint[3] = oderedpoint[0];
+        oderedpoint[0] = ptarray[a];
+    }
+    else
+    {
+        oderedpoint[3] = ptarray[a];
+    }
+
+    xpoints = {ptarray[0].x, ptarray[1].x, ptarray[2].x, ptarray[3].x};
+    a = distance(xpoints.begin(), max_element(xpoints.begin(), xpoints.end()));
+    oderedpoint[1] = ptarray[a];
+    xpoints[a] = 0;
+    a = distance(xpoints.begin(), max_element(xpoints.begin(), xpoints.end()));
+    if (oderedpoint[1].y > ptarray[a].y)
+    {
+        oderedpoint[2] = oderedpoint[1];
+        oderedpoint[1] = ptarray[a];
+    }
+    else
+    {
+        oderedpoint[2] = ptarray[a];
+    }
+    return oderedpoint;
+}
+
 int main(int argc, char **argv)
 {
 
@@ -71,9 +111,39 @@ int main(int argc, char **argv)
         return EXIT_FAILURE;
     }
     namedWindow(window_name, WINDOW_AUTOSIZE);
+
     Point pt;
+    // Get the four edge points of the document
     setMouseCallback(window_name, fourpointsquare, &pt);
 
     imshow(window_name, src);
+    waitKey();
+
+    // put the Four edge point in oder
+    array<Point, 4> oderedpoint;
+    oderedpoint = odersquarepoints(pointarray);
+
+    // Transform the image according to the edge points of the document
+    Point2f srcpoint[4];
+    Point2f dstpoint[4];
+
+    Mat lambda(2, 4, CV_32FC1);
+    Mat dst;
+
+    lambda = Mat::zeros(src.rows, src.cols, src.type());
+    for (int i = 0; i < 4; i++)
+    {
+        srcpoint[i] = Point2f(oderedpoint[i].x, oderedpoint[i].y);
+    }
+
+    dstpoint[0] = Point2f(0, 0);
+    dstpoint[1] = Point2f(src.cols, 0);
+    dstpoint[2] = Point2f(src.cols, src.rows);
+    dstpoint[3] = Point2f(0, src.rows);
+
+    lambda = getPerspectiveTransform(srcpoint, dstpoint);
+    warpPerspective(src, dst, lambda, dst.size());
+
+    imshow(window_name, dst);
     waitKey();
 }
