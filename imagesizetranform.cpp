@@ -58,10 +58,6 @@ void fourpointsquare(int event, int x, int y, int, void *param)
     }
 }
 
-// void draw_square(int, void *){
-
-// }
-
 int main(int argc, char **argv)
 {
 
