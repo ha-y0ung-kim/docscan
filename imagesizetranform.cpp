@@ -5,7 +5,7 @@
 using namespace std;
 using namespace cv;
 
-Mat src;
+Mat src, srcori;
 
 const char *window_name = "pic";
 
@@ -38,15 +38,10 @@ void fourpointsquare(int event, int x, int y, int, void *param)
             double ang012 = get_angle(pointarray[0], pointarray[1], pointarray[2]);
             double ang013 = get_angle(pointarray[0], pointarray[1], pointarray[3]);
             double ang023 = get_angle(pointarray[0], pointarray[2], pointarray[3]);
-            // cout << ang012 << " " << ang013 << " " << ang023 << "\n ";
 
             array<double, 3> angle0 = {ang023, ang013, ang012};
-            // cout << angle0[0] << " " << angle0[1] << " " << angle0[2] << "\n ";
 
             auto maxang = distance(angle0.begin(), max_element(angle0.begin(), angle0.end()));
-
-            // cout << a << endl;
-            // cout << angle0[a];
 
             line(src, pointarray[0], pointarray[(maxang + 1) % 3 + 1], Scalar(0, 0, 25), 1, 8, 0);
             line(src, pointarray[0], pointarray[(maxang + 2) % 3 + 1], Scalar(0, 0, 25), 1, 8, 0);
@@ -110,6 +105,7 @@ int main(int argc, char **argv)
              << argv[0] << " [image_name-- default lena.jpg]" << endl;
         return EXIT_FAILURE;
     }
+    srcori = src.clone();
     namedWindow(window_name, WINDOW_AUTOSIZE);
 
     Point pt;
@@ -142,7 +138,7 @@ int main(int argc, char **argv)
     dstpoint[3] = Point2f(0, src.rows);
 
     lambda = getPerspectiveTransform(srcpoint, dstpoint);
-    warpPerspective(src, dst, lambda, dst.size());
+    warpPerspective(srcori, dst, lambda, dst.size());
 
     imshow(window_name, dst);
     waitKey();

@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 project( main )
 
 set("OpenCV_DIR" "build")
+set("Tesseract_DIR" "tesseract_build")
+set("Leptonica_DIR" "leptonica_build")
 
 find_package( OpenCV REQUIRED )
 include_directories( ${OpenCV_INCLUDE_DIRS} )
@@ -15,5 +17,16 @@ include_directories( ${OpenCV_INCLUDE_DIRS} )
 # target_link_libraries( findedge ${OpenCV_LIBS} )
 
 
-add_executable( imagesizetranform imagesizetranform.cpp )
-target_link_libraries( imagesizetranform ${OpenCV_LIBS} )
+# add_executable( imagesizetranform imagesizetranform.cpp )
+# target_link_libraries( imagesizetranform ${OpenCV_LIBS} )
+
+
+find_package( Leptonica REQUIRED ) 
+include_directories(${Leptonica_INCLUDE_DIRS})
+
+
+find_package( Tesseract REQUIRED ) 
+include_directories(${Tesseract_INCLUDE_DIRS})
+
+add_executable( ocrtry ocrtry.cpp )
+target_link_libraries( ocrtry ${OpenCV_LIBS} ${TESSERACT_LIBRARIES} ${LEPTONICA_LIBRARIES})
