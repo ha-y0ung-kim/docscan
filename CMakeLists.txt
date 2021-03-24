@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 project( main )
-
-set("OpenCV_DIR" "build")
+set("OpenCV_DIR" "ocv-build")
 set("Tesseract_DIR" "tesseract_build")
 set("Leptonica_DIR" "leptonica_build")
 
@@ -30,3 +29,12 @@ include_directories(${Tesseract_INCLUDE_DIRS})
 
 add_executable( ocrtry ocrtry.cpp )
 target_link_libraries( ocrtry ${OpenCV_LIBS} ${TESSERACT_LIBRARIES} ${LEPTONICA_LIBRARIES})
+target_link_libraries( ocrtry -llept -ltesseract)
+
+# cmake_minimum_required(VERSION 2.8)
+# project( DisplayImage )
+# find_package( OpenCV REQUIRED )
+# include_directories( ${OpenCV_INCLUDE_DIRS} )
+# add_executable( DisplayImage DisplayImage.cpp )
+# target_link_libraries(DisplayImage ${OpenCV_LIBS})
+ # must add this line to link Tesseract and leptonica libs
