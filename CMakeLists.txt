@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 project( main )
 set("OpenCV_DIR" "ocv-build")
-set("Tesseract_DIR" "tesseract_build")
 set("Leptonica_DIR" "leptonica_build")
+set("Tesseract_DIR" "tesseract_build")
 
 find_package( OpenCV REQUIRED )
 include_directories( ${OpenCV_INCLUDE_DIRS} )
